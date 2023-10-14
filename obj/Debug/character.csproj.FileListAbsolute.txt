@@ -1,0 +1,7 @@
+C:\Users\Ваня\Desktop\character\bin\Debug\character.exe.config
+C:\Users\Ваня\Desktop\character\bin\Debug\character.exe
+C:\Users\Ваня\Desktop\character\bin\Debug\character.pdb
+C:\Users\Ваня\Desktop\character\obj\Debug\character.csproj.AssemblyReference.cache
+C:\Users\Ваня\Desktop\character\obj\Debug\character.csproj.CoreCompileInputs.cache
+C:\Users\Ваня\Desktop\character\obj\Debug\character.exe
+C:\Users\Ваня\Desktop\character\obj\Debug\character.pdb
