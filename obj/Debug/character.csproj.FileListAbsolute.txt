@@ -5,3 +5,10 @@ C:\Users\Ваня\Desktop\character\obj\Debug\character.csproj.AssemblyReference
 C:\Users\Ваня\Desktop\character\obj\Debug\character.csproj.CoreCompileInputs.cache
 C:\Users\Ваня\Desktop\character\obj\Debug\character.exe
 C:\Users\Ваня\Desktop\character\obj\Debug\character.pdb
+C:\Users\prdb\Desktop\character\bin\Debug\character.exe.config
+C:\Users\prdb\Desktop\character\bin\Debug\character.exe
+C:\Users\prdb\Desktop\character\bin\Debug\character.pdb
+C:\Users\prdb\Desktop\character\obj\Debug\character.csproj.AssemblyReference.cache
+C:\Users\prdb\Desktop\character\obj\Debug\character.csproj.CoreCompileInputs.cache
+C:\Users\prdb\Desktop\character\obj\Debug\character.exe
+C:\Users\prdb\Desktop\character\obj\Debug\character.pdb
