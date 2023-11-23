@@ -15,8 +15,6 @@ namespace character
         public void Start()
         {
             InfoIn();
-            Console.Clear();
-            InfoOut();
         }
         private void InfoIn()
         {
@@ -24,6 +22,7 @@ namespace character
             bool error = false;   /*Переменная для прекращения циклов с ошибкой*/
             do
             {
+                Console.WriteLine("СОЗДАНИЕ ПЕРСОНАЖА");
                 Console.Write("Введите имя персонажа: ");
                 name = Console.ReadLine();
                 for (int i = 0; i < name.Length; i++)
@@ -138,6 +137,30 @@ namespace character
             Console.WriteLine($"Жизни: {hp}");
             Console.WriteLine($"Координаты: {x}; {y}");
         }
+        public string InfoName()
+        {
+            return name;
+        }
+        public void GameStart()
+        {
+            Game();
+        }
+        private void Game()
+        {
+            Console.WriteLine("ИНФОРМАЦИЯ О ПЕРСОНАЖЕ");
+            InfoOut();
+            Console.WriteLine();
+            MapChoise();
+        }
+        private void MapChoise()
+        {
+            Console.WriteLine("Выберите действие:");
+            Console.WriteLine("1. Двигаться по оси X");
+            Console.WriteLine("2. Двигаться по оси Y");
+            Console.WriteLine("3. Подлечиться");
+            Console.WriteLine("4. Вылечиться полностью");
+            Console.WriteLine("5. Сменить лагерь");
+        }
         private void moveX()
         {
             string input;
@@ -146,7 +169,7 @@ namespace character
             input = Console.ReadLine();
             if (Int32.TryParse(input, out move) == true)
             {
-                if ((x += move) <= 10 || (x+= move) >= 0)
+                if ((x += move) <= 10 || (x += move) >= 0)
                 {
                     x += move;
                     Console.WriteLine($"\nГотово! Ваши текущие координаты: {x}; {y}");
@@ -207,26 +230,22 @@ namespace character
         public void ChangeLager()
         {
             string input;
-            do
+            Console.WriteLine("Вы точно хотите поменять лагерь?\n1. Да      2. Нет");
+            input = Console.ReadLine();
+            if (input == "1")
             {
-                Console.WriteLine("Вы точно хотите поменять лагерь?\n1. Да      2. Нет");
-                input = Console.ReadLine();
-                switch (input)
-                {
-                    case "1":
-                        if (lager == false)
-                            lager = true;
-                        else
-                            lager = false;
-                        break;
-                    case "2":
-                        Console.WriteLine("Ваш лагерь остался прежним");
-                        break;
-                    default:
-                        Console.WriteLine("ОШИБКА!!! Попробуйте ещё раз");
-                        break;
-                }
-            } while (input != "1" && input != "2");
+                if (lager == false)
+                    lager = true;
+                else
+                    lager = false;
+            }
+            else if (input == "2")
+                Console.WriteLine("Ваш лагерь остался прежним");
+            else
+            {
+                Console.WriteLine("ОШИБКА!!! Попробуйте ещё раз . . .");
+                ChangeLager();
+            }
         }
     }
 }
