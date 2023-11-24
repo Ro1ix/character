@@ -11,6 +11,7 @@ namespace character
         private string name;
         private bool lager;
         private int hp, hpMax;
+        private int atk;
         private int x, y;
         public void Start()
         {
@@ -58,6 +59,7 @@ namespace character
                         //Nothing
                     } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
                     Console.Clear();
+                    Console.WriteLine("СОЗДАНИЕ ПЕРСОНАЖА");
                     Console.WriteLine($"Введите имя персонажа: {name}");
                 }
             } while (input != "1" && input != "2");    /*Выбор лагеря*/
@@ -73,6 +75,7 @@ namespace character
                         //Nothing
                     } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
                     Console.Clear();
+                    Console.WriteLine("СОЗДАНИЕ ПЕРСОНАЖА");
                     Console.WriteLine($"Введите имя персонажа: {name}");
                     Console.WriteLine("\nВыберите лагерь:\n1. Синий      2. Красный");
                     if (lager == false)
@@ -97,13 +100,14 @@ namespace character
                             //Nothing
                         } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
                         Console.Clear();
+                        Console.WriteLine("СОЗДАНИЕ ПЕРСОНАЖА");
                         Console.WriteLine($"Введите имя персонажа: {name}");
                         Console.WriteLine("\nВыберите лагерь:\n1. Синий      2. Красный");
                         if (lager == false)
                             Console.WriteLine(1);
                         else
                             Console.WriteLine(2);
-                        Console.Write($"\nВведите кол-во здоровья (от 20 до 50): {hp}");
+                        Console.WriteLine($"\nВведите кол-во здоровья (от 20 до 50): {hp}");
                     }
                 } while (Int32.TryParse(input, out x) == false);
                 Console.Write("Y: ");
@@ -116,14 +120,14 @@ namespace character
                         //Nothing
                     } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
                     Console.Clear();
+                    Console.WriteLine("СОЗДАНИЕ ПЕРСОНАЖА");
                     Console.WriteLine($"Введите имя персонажа: {name}");
                     Console.WriteLine("\nВыберите лагерь:\n1. Синий      2. Красный");
                     if (lager == false)
                         Console.WriteLine(1);
                     else
                         Console.WriteLine(2);
-                    Console.Write($"\nВведите кол-во здоровья (от 20 до 50): {hp}");
-                    Console.Write($"Введите координаты (от 0 до 10)\nX: {x}");
+                    Console.WriteLine($"\nВведите кол-во здоровья (от 20 до 50): {hp}");
                 }
             } while (Int32.TryParse(input, out y) == false);    /*Ввод координат*/
         }
@@ -141,18 +145,15 @@ namespace character
         {
             return name;
         }
-        public void GameStart()
-        {
-            Game();
-        }
-        private void Game()
+        public void Game(List<Player> players)
         {
             Console.WriteLine("ИНФОРМАЦИЯ О ПЕРСОНАЖЕ");
             InfoOut();
             Console.WriteLine();
-            MapChoise();
+            LocationCheck(players);
+            MapChoise(players);
         }
-        private void MapChoise()
+        private void MapChoise(List<Player> players)
         {
             Console.WriteLine("Выберите действие:");
             Console.WriteLine("1. Двигаться по оси X");
@@ -160,16 +161,84 @@ namespace character
             Console.WriteLine("3. Подлечиться");
             Console.WriteLine("4. Вылечиться полностью");
             Console.WriteLine("5. Сменить лагерь");
+            Console.WriteLine("Enter. Меню");
+            string input = Console.ReadLine();
+            Console.WriteLine();
+            switch (input)
+            {
+                case "1":
+                    moveX();
+                    Console.Write("\nНажмите Enter, чтобы продолжить . . . ");
+                    do
+                    {
+                        //Nothing
+                    } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
+                    Console.Clear();
+                    Game(players);
+                    break;
+                case "2":
+                    moveY();
+                    Console.Write("\nНажмите Enter, чтобы продолжить . . . ");
+                    do
+                    {
+                        //Nothing
+                    } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
+                    Console.Clear();
+                    Game(players);
+                    break;
+                case "3":
+                    Heal();
+                    Console.Write("\nНажмите Enter, чтобы продолжить . . . ");
+                    do
+                    {
+                        //Nothing
+                    } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
+                    Console.Clear();
+                    Game(players);
+                    break;
+                case "4":
+                    FullHeal();
+                    Console.Write("\nНажмите Enter, чтобы продолжить . . . ");
+                    do
+                    {
+                        //Nothing
+                    } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
+                    Console.Clear();
+                    Game(players);
+                    break;
+                case "5":
+                    ChangeLager();
+                    Console.Write("\nНажмите Enter, чтобы продолжить . . . ");
+                    do
+                    {
+                        //Nothing
+                    } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
+                    Console.Clear();
+                    Game(players);
+                    break;
+                case "":
+                    Console.Clear();
+                    break;
+                default:
+                    Console.Write("ОШИБКА!!! Нажмите Enter и попробуйте ещё раз . . . ");
+                    do
+                    {
+                        //Nothing
+                    } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
+                    Console.Clear();
+                    Game(players);
+                    break;
+            }
         }
         private void moveX()
         {
             string input;
             int move = 0;
-            Console.WriteLine("\n(Положительное число ― вправо,  отрицательное - влево)\nВведите, какое расстояние хотите пройти: ");
+            Console.WriteLine("(Положительное число - вправо,  отрицательное - влево)\nВведите, какое расстояние хотите пройти: ");
             input = Console.ReadLine();
             if (Int32.TryParse(input, out move) == true)
             {
-                if ((x += move) <= 10 || (x += move) >= 0)
+                if (x + move <= 10 || x + move >= 0)
                 {
                     x += move;
                     Console.WriteLine($"\nГотово! Ваши текущие координаты: {x}; {y}");
@@ -190,11 +259,11 @@ namespace character
         {
             string input;
             int move = 0;
-            Console.WriteLine("\n(Положительное число ― вверх,  отрицательное - вниз)\nВведите, какое расстояние хотите пройти: ");
+            Console.WriteLine("(Положительное число - вверх,  отрицательное - вниз)\nВведите, какое расстояние хотите пройти: ");
             input = Console.ReadLine();
             if (Int32.TryParse(input, out move) == true)
             {
-                if ((y += move) <= 10 || (y += move) >= 0)
+                if (y + move <= 10 || y + move >= 0)
                 {
                     y += move;
                     Console.WriteLine($"\nГотово! Ваши текущие координаты: {x}; {y}");
@@ -213,21 +282,31 @@ namespace character
         }
         private void Heal()
         {
-            hp += 4;
-            if (hp < hpMax)
-                Console.WriteLine("Вы вылечились на 4 HP");
+            if (hp == hpMax)
+                Console.WriteLine("Ваше здоровье уже на максимуме :)");
             else
             {
-                Console.WriteLine("Вы полностью вылечились!");
-                hp = hpMax;
+                hp += 4;
+                if (hp < hpMax)
+                    Console.WriteLine("Вы вылечились на 4 HP");
+                else
+                {
+                    Console.WriteLine("Вы полностью вылечились!");
+                    hp = hpMax;
+                }
             }
         }
-        public void FullHeal()
+        private void FullHeal()
         {
-            hp = hpMax;
-            Console.WriteLine("Вы полностью вылечились!");
+            if (hp == hpMax)
+                Console.WriteLine("Ваше здоровье уже на максимуме :)");
+            else
+            {
+                hp = hpMax;
+                Console.WriteLine("Вы полностью вылечились!");
+            }
         }
-        public void ChangeLager()
+        private void ChangeLager()
         {
             string input;
             Console.WriteLine("Вы точно хотите поменять лагерь?\n1. Да      2. Нет");
@@ -238,6 +317,7 @@ namespace character
                     lager = true;
                 else
                     lager = false;
+                Console.WriteLine("Вы успешно сменили лагерь");
             }
             else if (input == "2")
                 Console.WriteLine("Ваш лагерь остался прежним");
@@ -246,6 +326,133 @@ namespace character
                 Console.WriteLine("ОШИБКА!!! Попробуйте ещё раз . . .");
                 ChangeLager();
             }
+        }
+        private void LocationCheck(List<Player> players)
+        {
+            int enemies = 0;
+            int friends = 1;
+            foreach (Player player in players)
+            {
+                if (name != player.name)
+                {
+                    if (x == player.x && y == player.y)
+                    {
+                        Console.WriteLine("Вы встретили персонажа:");
+                        player.InfoOut();
+                        Console.WriteLine();
+                        if (lager != player.lager)
+                            enemies++;
+                        else
+                            friends++;
+                    }
+                }
+            }
+            if (enemies > 0)
+            {
+                Console.Write("ВЫ ВСТРЕТИЛИ ВРАГА! Чтобы начать битву, нажмите Enter . . . ");
+                do
+                {
+                    //Nothing
+                } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
+                Console.Clear();
+                Battle(players, enemies, friends);
+            }
+        }
+        private void Battle(List<Player> players, int enemies, int friends)
+        {
+            Console.WriteLine("БИТВА\n");
+            Random random = new Random();
+            int hpEnemy = 0;
+            foreach (Player player in players)
+            {
+                if (x == player.x && y == player.y)
+                {
+                    player.atk = random.Next(3, 7);
+                    if (player.lager != lager)
+                        hpEnemy += player.hp;
+                }
+            }
+            do
+            {
+                InfoBattle(players, enemies, friends, hpEnemy);
+                hpEnemy = BattleChoise(players, enemies, friends, hpEnemy);
+            } while (hp > 0 && hpEnemy > 0);
+        }
+        private void InfoBattle(List<Player> players, int enemies, int friends, int hpEnemy)
+        {
+            Console.WriteLine("ВАША КОМАНДА");
+            Console.WriteLine($"Вы\nHP: {hp}/{hpMax}\nАТК: {atk}");
+            foreach (Player player in players)
+            {
+                if (name != player.name)
+                {
+                    if (x == player.x && y == player.y && player.lager == lager)
+                    {
+                        Console.WriteLine($"{player.name}\nHP: {player.hp}/{player.hpMax}\nАТК: {player.atk}");
+                        Console.WriteLine();
+                    }
+                }
+            }
+            Console.WriteLine("\nВРАГИ");
+            foreach (Player player in players)
+            {
+                if (name != player.name)
+                {
+                    if (x == player.x && y == player.y && player.lager != lager)
+                    {
+                        Console.WriteLine($"{player.name}\nHP: {player.hp}/{player.hpMax}\nАТК: {player.atk}");
+                        Console.WriteLine();
+                    }
+                }
+            }
+        }
+        private int BattleChoise(List<Player> players, int enemies, int friends, int hpEnemy)
+        {
+            Console.WriteLine("Выберите действие:");
+            Console.WriteLine("1. Ударить    2. Подлечиться");
+            string input = Console.ReadLine();
+            Console.WriteLine();
+            if (input == "1")
+                hpEnemy = Attack(players, enemies, friends, hpEnemy);
+            else if (input == "2")
+                Heal();
+            else
+            {
+                Console.WriteLine("ОШИБКА!!! Попробуйте ещё раз . . .\n");
+                BattleChoise(players, enemies, friends, hpEnemy);
+            }
+            return hpEnemy;
+        }
+        private int Attack(List<Player> players, int enemies, int friends, int hpEnemy)
+        {
+            int atkAll = 0;
+            foreach (Player player in players)
+            {
+                if (x == player.x && y == player.y)
+                {
+                    if (lager == player.lager)
+                        atkAll += player.atk;
+                }
+            }
+            Console.WriteLine($"Вы нанесли {atkAll} урона\n");
+            atkAll /= enemies;
+            foreach (Player player in players)
+            {
+                if (x == player.x && y == player.y)
+                {
+                    if (lager != player.lager)
+                    {
+                        player.hp -= atkAll;
+                        hpEnemy -= atkAll;
+                        Console.WriteLine(hpEnemy);
+                    }
+                }
+            }
+            return hpEnemy;
+        }
+        private void EnemyAttack()
+        {
+
         }
     }
 }

@@ -13,8 +13,8 @@ namespace character
         {
             Console.Title = "Игровой персонаж";
             List<Player> players = new List<Player>();
-            int count = 0;
-            Menu(players, count);
+            int countPlayers = 0;
+            Menu(players, countPlayers);
         }
         static void Menu(List<Player> players, int countPlayers)
         {
@@ -38,7 +38,7 @@ namespace character
                         player.InfoOut();
                         Console.WriteLine();
                     }
-                    Console.WriteLine("Нажмите Enter, чтобы продолжить . . .");
+                    Console.Write("Нажмите Enter, чтобы продолжить . . . ");
                     do
                     {
                         //Nothing
@@ -64,20 +64,21 @@ namespace character
                             if (input == player.InfoName())
                             {
                                 Console.Clear();
-                                player.GameStart();
+                                player.Game(players);
                             }
                             else
                                 countError++;
                         }
                         if (countError == countPlayers)
                         {
-                            Console.WriteLine("\nОШИБКА!!! Персонажа с таким именем не существует\nНажмите Enter и попробуйте ещё раз . . .");
+                            Console.Write("\nОШИБКА!!! Персонажа с таким именем не существует\nНажмите Enter и попробуйте ещё раз . . . ");
                             do
                             {
                                 //Nothing
                             } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
                             goto case "2";
                         }
+                        Menu(players, countPlayers);
                     }
                     else
                         goto default;
@@ -85,7 +86,7 @@ namespace character
                 case "":
                     break;
                 default:
-                    Console.WriteLine("\nОШИБКА!!! Нажмите Enter и попробуйте ещё раз . . .");
+                    Console.Write("\nОШИБКА!!! Нажмите Enter и попробуйте ещё раз . . . ");
                     do
                     {
                         //Nothing
