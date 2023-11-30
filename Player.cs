@@ -10,7 +10,8 @@ namespace character
     {
         private string name;
         private bool lager;
-        private int hp, hpMax;
+        private double hp;
+        private int hpMax;
         private int atk;
         private int x, y;
         public void Start()
@@ -333,18 +334,15 @@ namespace character
             int friends = 1;
             foreach (Player player in players)
             {
-                if (name != player.name)
+                if (name != player.name && x == player.x && y == player.y)
                 {
-                    if (x == player.x && y == player.y)
-                    {
-                        Console.WriteLine("Вы встретили персонажа:");
-                        player.InfoOut();
-                        Console.WriteLine();
-                        if (lager != player.lager)
-                            enemies++;
-                        else
-                            friends++;
-                    }
+                    Console.WriteLine("Вы встретили персонажа:");
+                    player.InfoOut();
+                    Console.WriteLine();
+                    if (lager != player.lager)
+                        enemies++;
+                    else
+                        friends++;
                 }
             }
             if (enemies > 0)
@@ -362,7 +360,7 @@ namespace character
         {
             Console.WriteLine("БИТВА\n");
             Random random = new Random();
-            int hpEnemy = 0;
+            double hpEnemy = 0;
             foreach (Player player in players)
             {
                 if (x == player.x && y == player.y)
@@ -377,36 +375,35 @@ namespace character
                 InfoBattle(players, enemies, friends, hpEnemy);
                 hpEnemy = BattleChoise(players, enemies, friends, hpEnemy);
             } while (hp > 0 && hpEnemy > 0);
+            foreach (Player player in players)
+            {
+                if (player.hp <= 0)
+                    players.Remove(player);
+            }
         }
-        private void InfoBattle(List<Player> players, int enemies, int friends, int hpEnemy)
+        private void InfoBattle(List<Player> players, int enemies, int friends, double hpEnemy)
         {
             Console.WriteLine("ВАША КОМАНДА");
             Console.WriteLine($"Вы\nHP: {hp}/{hpMax}\nАТК: {atk}");
             foreach (Player player in players)
             {
-                if (name != player.name)
+                if (name != player.name && x == player.x && y == player.y && player.lager == lager)
                 {
-                    if (x == player.x && y == player.y && player.lager == lager)
-                    {
-                        Console.WriteLine($"{player.name}\nHP: {player.hp}/{player.hpMax}\nАТК: {player.atk}");
-                        Console.WriteLine();
-                    }
+                    Console.WriteLine();
+                    Console.WriteLine($"{player.name}\nHP: {player.hp}/{player.hpMax}\nАТК: {player.atk}");
                 }
             }
             Console.WriteLine("\nВРАГИ");
             foreach (Player player in players)
             {
-                if (name != player.name)
+                if (name != player.name && x == player.x && y == player.y && player.lager != lager)
                 {
-                    if (x == player.x && y == player.y && player.lager != lager)
-                    {
-                        Console.WriteLine($"{player.name}\nHP: {player.hp}/{player.hpMax}\nАТК: {player.atk}");
-                        Console.WriteLine();
-                    }
+                    Console.WriteLine($"{player.name}\nHP: {player.hp}/{player.hpMax}\nАТК: {player.atk}");
+                    Console.WriteLine();
                 }
             }
         }
-        private int BattleChoise(List<Player> players, int enemies, int friends, int hpEnemy)
+        private double BattleChoise(List<Player> players, int enemies, int friends, double hpEnemy)
         {
             Console.WriteLine("Выберите действие:");
             Console.WriteLine("1. Ударить    2. Подлечиться");
@@ -423,29 +420,24 @@ namespace character
             }
             return hpEnemy;
         }
-        private int Attack(List<Player> players, int enemies, int friends, int hpEnemy)
+        private double Attack(List<Player> players, int enemies, int friends, double hpEnemy)
         {
             int atkAll = 0;
             foreach (Player player in players)
             {
-                if (x == player.x && y == player.y)
+                if (x == player.x && y == player.y && lager == player.lager)
                 {
-                    if (lager == player.lager)
-                        atkAll += player.atk;
+                    atkAll += player.atk;
                 }
             }
             Console.WriteLine($"Вы нанесли {atkAll} урона\n");
             atkAll /= enemies;
             foreach (Player player in players)
             {
-                if (x == player.x && y == player.y)
+                if (x == player.x && y == player.y && lager != player.lager)
                 {
-                    if (lager != player.lager)
-                    {
-                        player.hp -= atkAll;
-                        hpEnemy -= atkAll;
-                        Console.WriteLine(hpEnemy);
-                    }
+                    player.hp -= atkAll;
+                    hpEnemy -= atkAll;
                 }
             }
             return hpEnemy;
