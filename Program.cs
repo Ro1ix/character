@@ -13,10 +13,11 @@ namespace character
         {
             Console.Title = "Игровой персонаж";
             List<Player> players = new List<Player>();
+            List<Player> deadPlayers = new List<Player>();
             int countPlayers = 0;
-            Menu(players, countPlayers);
+            Menu(players, countPlayers, deadPlayers);
         }
-        static void Menu(List<Player> players, int countPlayers)
+        static void Menu(List<Player> players, int countPlayers, List<Player> deadPlayers)
         {
             Console.WriteLine("МЕНЮ");
             Console.WriteLine("1. Создать персонажа");
@@ -44,7 +45,7 @@ namespace character
                         //Nothing
                     } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
                     Console.Clear();
-                    Menu(players, countPlayers);
+                    Menu(players, countPlayers, deadPlayers);
                     break;
                 case "2":
                     if (countPlayers > 0)
@@ -59,12 +60,12 @@ namespace character
                         Console.WriteLine("Введите имя персонажа, которым хотите управлять: ");
                         input = Console.ReadLine();
                         int countError = 0;
+                        int count = -1;
                         foreach (Player player in players)
                         {
                             if (input == player.InfoName())
                             {
-                                Console.Clear();
-                                player.Game(players);
+                                count++;
                             }
                             else
                                 countError++;
@@ -78,7 +79,9 @@ namespace character
                             } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
                             goto case "2";
                         }
-                        Menu(players, countPlayers);
+                        Console.Clear();
+                        players[count].Game(players, deadPlayers);
+                        Menu(players, countPlayers, deadPlayers);
                     }
                     else
                         goto default;
@@ -92,7 +95,8 @@ namespace character
                         //Nothing
                     } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
                     Console.Clear();
-                    Menu(players, countPlayers);
+                    Menu(players, countPlayers, deadPlayers
+                        );
                     break;
             }
         }

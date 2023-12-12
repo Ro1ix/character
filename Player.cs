@@ -146,15 +146,15 @@ namespace character
         {
             return name;
         }
-        public void Game(List<Player> players)
+        public void Game(List<Player> players, List<Player> deadPlayers)
         {
             Console.WriteLine("ИНФОРМАЦИЯ О ПЕРСОНАЖЕ");
             InfoOut();
             Console.WriteLine();
-            LocationCheck(players);
-            MapChoise(players);
+            LocationCheck(players, deadPlayers);
+            MapChoise(players, deadPlayers);
         }
-        private void MapChoise(List<Player> players)
+        private void MapChoise(List<Player> players, List<Player> deadPlayers)
         {
             Console.WriteLine("Выберите действие:");
             Console.WriteLine("1. Двигаться по оси X");
@@ -175,7 +175,7 @@ namespace character
                         //Nothing
                     } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
                     Console.Clear();
-                    Game(players);
+                    Game(players, deadPlayers);
                     break;
                 case "2":
                     moveY();
@@ -185,7 +185,7 @@ namespace character
                         //Nothing
                     } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
                     Console.Clear();
-                    Game(players);
+                    Game(players, deadPlayers);
                     break;
                 case "3":
                     Heal();
@@ -195,7 +195,7 @@ namespace character
                         //Nothing
                     } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
                     Console.Clear();
-                    Game(players);
+                    Game(players, deadPlayers);
                     break;
                 case "4":
                     FullHeal();
@@ -205,7 +205,7 @@ namespace character
                         //Nothing
                     } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
                     Console.Clear();
-                    Game(players);
+                    Game(players, deadPlayers);
                     break;
                 case "5":
                     ChangeLager();
@@ -215,7 +215,7 @@ namespace character
                         //Nothing
                     } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
                     Console.Clear();
-                    Game(players);
+                    Game(players, deadPlayers);
                     break;
                 case "":
                     Console.Clear();
@@ -227,7 +227,7 @@ namespace character
                         //Nothing
                     } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
                     Console.Clear();
-                    Game(players);
+                    Game(players, deadPlayers);
                     break;
             }
         }
@@ -328,7 +328,7 @@ namespace character
                 ChangeLager();
             }
         }
-        private void LocationCheck(List<Player> players)
+        private void LocationCheck(List<Player> players, List<Player> deadPlayers)
         {
             int enemies = 0;
             int friends = 1;
@@ -353,10 +353,10 @@ namespace character
                     //Nothing
                 } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
                 Console.Clear();
-                Battle(players, enemies, friends);
+                Battle(players, enemies, friends, deadPlayers);
             }
         }
-        private void Battle(List<Player> players, int enemies, int friends)
+        private void Battle(List<Player> players, int enemies, int friends, List<Player> deadPlayers)
         {
             Console.WriteLine("БИТВА\n");
             Random random = new Random();
@@ -378,7 +378,14 @@ namespace character
             foreach (Player player in players)
             {
                 if (player.hp <= 0)
-                    players.Remove(player);
+                {
+                    deadPlayers.Add(player);
+                }
+            }
+            players.RemoveAll(player => player.hp <= 0);
+            foreach (Player deadPlayer in deadPlayers)
+            {
+                deadPlayer.InfoOut();
             }
         }
         private void InfoBattle(List<Player> players, int enemies, int friends, double hpEnemy)
