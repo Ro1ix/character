@@ -27,21 +27,36 @@ namespace character
                 Console.WriteLine("СОЗДАНИЕ ПЕРСОНАЖА");
                 Console.Write("Введите имя персонажа: ");
                 name = Console.ReadLine();
-                for (int i = 0; i < name.Length; i++)
+                if (name == "")
                 {
-                    if (name[i] == ' ' || name == "")
+                    error = true;
+                    Console.Write("\nОШИБКА!!! Имя не должно содержать пробелов или пустоту\nНажмите Enter и попробуйте ещё раз . . . ");
+                    do
                     {
-                        error = true;
-                        Console.Write("\nОШИБКА!!! Имя не должно содержать пробелов или пустоту\nНажмите Enter и попробуйте ещё раз . . . ");
-                        do
+                        //Nothing
+                    } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
+                    Console.Clear();
+                }
+                else
+                {
+                    for (int i = 0; i < name.Length; i++)
+                    {
+                        if (name[i] == ' ')
                         {
-                            //Nothing
-                        } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
-                        Console.Clear();
-                        break;
+                            error = true;
+                            Console.Write("\nОШИБКА!!! Имя не должно содержать пробелов или пустоту\nНажмите Enter и попробуйте ещё раз . . . ");
+                            do
+                            {
+                                //Nothing
+                            } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
+                            Console.Clear();
+                            break;
+                        }
+                        else
+                        {
+                            error = false;
+                        }
                     }
-                    else
-                        error = false;
                 }
             } while (error == true);    /*Ввод имени персонажа*/
             do
@@ -49,9 +64,13 @@ namespace character
                 Console.WriteLine("\nВыберите лагерь:\n1. Синий      2. Красный");   /*Синий - false, красный - true*/
                 input = Console.ReadLine();
                 if (input == "1")
+                {
                     lager = false;
+                }
                 else if (input == "2")
+                {
                     lager = true;
+                }
                 else
                 {
                     Console.Write("\nОШИБКА!!! Нажмите Enter и попробуйте ещё раз . . . ");
@@ -80,12 +99,18 @@ namespace character
                     Console.WriteLine($"Введите имя персонажа: {name}");
                     Console.WriteLine("\nВыберите лагерь:\n1. Синий      2. Красный");
                     if (lager == false)
+                    {
                         Console.WriteLine(1);
+                    }
                     else
+                    {
                         Console.WriteLine(2);
+                    }
                 }
                 else
+                {
                     hp = hpMax;
+                }
             } while (Int32.TryParse(input, out hpMax) == false);    /*Ввод HP персонажа*/
             do
             {
@@ -105,9 +130,13 @@ namespace character
                         Console.WriteLine($"Введите имя персонажа: {name}");
                         Console.WriteLine("\nВыберите лагерь:\n1. Синий      2. Красный");
                         if (lager == false)
+                        {
                             Console.WriteLine(1);
+                        }
                         else
+                        {
                             Console.WriteLine(2);
+                        }
                         Console.WriteLine($"\nВведите кол-во здоровья (от 20 до 50): {hp}");
                     }
                 } while (Int32.TryParse(input, out x) == false);
@@ -125,9 +154,13 @@ namespace character
                     Console.WriteLine($"Введите имя персонажа: {name}");
                     Console.WriteLine("\nВыберите лагерь:\n1. Синий      2. Красный");
                     if (lager == false)
+                    {
                         Console.WriteLine(1);
+                    }
                     else
+                    {
                         Console.WriteLine(2);
+                    }
                     Console.WriteLine($"\nВведите кол-во здоровья (от 20 до 50): {hp}");
                 }
             } while (Int32.TryParse(input, out y) == false);    /*Ввод координат*/
@@ -136,10 +169,14 @@ namespace character
         {
             Console.WriteLine($"Имя: {name}");
             if (lager == false)
+            {
                 Console.WriteLine("Лагерь: Синий");
+            }
             else
+            {
                 Console.WriteLine("Лагерь: Красный");
-            Console.WriteLine($"Жизни: {hp}");
+            }
+            Console.WriteLine($"Жизни: {hp}/{hpMax}");
             Console.WriteLine($"Координаты: {x}; {y}");
         }
         public string InfoName()
@@ -152,7 +189,11 @@ namespace character
             InfoOut();
             Console.WriteLine();
             LocationCheck(players, deadPlayers);
-            MapChoise(players, deadPlayers);
+            if (hp > 0)
+            {
+                MapChoise(players, deadPlayers);
+            }
+            players.RemoveAll(player => player.hp <= 0);
         }
         private void MapChoise(List<Player> players, List<Player> deadPlayers)
         {
@@ -284,7 +325,9 @@ namespace character
         private void Heal()
         {
             if (hp == hpMax)
+            {
                 Console.WriteLine("Ваше здоровье уже на максимуме :)");
+            }
             else
             {
                 hp += 4;
@@ -300,7 +343,9 @@ namespace character
         private void FullHeal()
         {
             if (hp == hpMax)
+            {
                 Console.WriteLine("Ваше здоровье уже на максимуме :)");
+            }
             else
             {
                 hp = hpMax;
@@ -315,13 +360,19 @@ namespace character
             if (input == "1")
             {
                 if (lager == false)
+                {
                     lager = true;
+                }
                 else
+                {
                     lager = false;
+                }
                 Console.WriteLine("Вы успешно сменили лагерь");
             }
             else if (input == "2")
+            {
                 Console.WriteLine("Ваш лагерь остался прежним");
+            }
             else
             {
                 Console.WriteLine("ОШИБКА!!! Попробуйте ещё раз . . .");
@@ -340,9 +391,13 @@ namespace character
                     player.InfoOut();
                     Console.WriteLine();
                     if (lager != player.lager)
+                    {
                         enemies++;
+                    }
                     else
+                    {
                         friends++;
+                    }
                 }
             }
             if (enemies > 0)
@@ -366,14 +421,20 @@ namespace character
                 if (x == player.x && y == player.y)
                 {
                     player.atk = random.Next(3, 7);
-                    if (player.lager != lager)
-                        hpEnemy += player.hp;
                 }
             }
             do
             {
+                foreach (Player player in players)
+                {
+                    if (x == player.x && y == player.y && player.lager != lager)
+                    {
+                        hpEnemy += player.hp;
+                    }
+                }
                 InfoBattle(players, enemies, friends, hpEnemy);
                 hpEnemy = BattleChoise(players, enemies, friends, hpEnemy);
+                EnemyAttack(players, friends);
             } while (hp > 0 && hpEnemy > 0);
             foreach (Player player in players)
             {
@@ -382,10 +443,20 @@ namespace character
                     deadPlayers.Add(player);
                 }
             }
-            players.RemoveAll(player => player.hp <= 0);
-            foreach (Player deadPlayer in deadPlayers)
+            if (hp > 0)
             {
-                deadPlayer.InfoOut();
+                Console.WriteLine("ВЫ ПОБЕДИЛИ!!!\n");
+            }
+            else
+            {
+                Console.WriteLine("ВЫ ПРОИГРАЛИ\n");
+                Console.WriteLine("Вы будете возвращены в меню для выбора другого персонажа");
+                Console.Write("Чтобы продолжить, нажмите Enter . . . ");
+                do
+                {
+                    //Nothing
+                } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
+                Console.Clear();
             }
         }
         private void InfoBattle(List<Player> players, int enemies, int friends, double hpEnemy)
@@ -394,13 +465,18 @@ namespace character
             Console.WriteLine($"Вы\nHP: {hp}/{hpMax}\nАТК: {atk}");
             foreach (Player player in players)
             {
+                if (player.hp < 0)
+                {
+                    player.hp = 0;
+                }
                 if (name != player.name && x == player.x && y == player.y && player.lager == lager)
                 {
                     Console.WriteLine();
                     Console.WriteLine($"{player.name}\nHP: {player.hp}/{player.hpMax}\nАТК: {player.atk}");
                 }
             }
-            Console.WriteLine("\nВРАГИ");
+            Console.WriteLine("----------------------------");
+            Console.WriteLine("ВРАГИ");
             foreach (Player player in players)
             {
                 if (name != player.name && x == player.x && y == player.y && player.lager != lager)
@@ -417,9 +493,13 @@ namespace character
             string input = Console.ReadLine();
             Console.WriteLine();
             if (input == "1")
-                hpEnemy = Attack(players, enemies, friends, hpEnemy);
+            {
+                hpEnemy = Attack(players, enemies, hpEnemy);
+            }
             else if (input == "2")
+            {
                 Heal();
+            }
             else
             {
                 Console.WriteLine("ОШИБКА!!! Попробуйте ещё раз . . .\n");
@@ -427,21 +507,21 @@ namespace character
             }
             return hpEnemy;
         }
-        private double Attack(List<Player> players, int enemies, int friends, double hpEnemy)
+        private double Attack(List<Player> players, int enemies, double hpEnemy)
         {
-            int atkAll = 0;
+            double atkAll = 0;
             foreach (Player player in players)
             {
-                if (x == player.x && y == player.y && lager == player.lager)
+                if (x == player.x && y == player.y && lager == player.lager && player.hp > 0)
                 {
                     atkAll += player.atk;
                 }
             }
-            Console.WriteLine($"Вы нанесли {atkAll} урона\n");
-            atkAll /= enemies;
+            Console.WriteLine($"Вы нанесли {atkAll} урона");
+            atkAll = Math.Round(atkAll / enemies, 2);
             foreach (Player player in players)
             {
-                if (x == player.x && y == player.y && lager != player.lager)
+                if (x == player.x && y == player.y && lager != player.lager && player.hp > 0)
                 {
                     player.hp -= atkAll;
                     hpEnemy -= atkAll;
@@ -449,9 +529,25 @@ namespace character
             }
             return hpEnemy;
         }
-        private void EnemyAttack()
+        private void EnemyAttack(List<Player> players, int friends)
         {
-
+            double atkAll = 0;
+            foreach (Player player in players)
+            {
+                if (x == player.x && y == player.y && lager != player.lager && player.hp > 0)
+                {
+                    atkAll += player.atk;
+                }
+            }
+            Console.WriteLine($"Вашей команде нанесли {atkAll} урона\n");
+            atkAll = Math.Round(atkAll / friends, 2);
+            foreach (Player player in players)
+            {
+                if (x == player.x && y == player.y && lager == player.lager && player.hp > 0)
+                {
+                    player.hp -= atkAll;
+                }
+            }
         }
     }
 }

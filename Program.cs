@@ -14,15 +14,16 @@ namespace character
             Console.Title = "Игровой персонаж";
             List<Player> players = new List<Player>();
             List<Player> deadPlayers = new List<Player>();
-            int countPlayers = 0;
-            Menu(players, countPlayers, deadPlayers);
+            Menu(players, deadPlayers);
         }
-        static void Menu(List<Player> players, int countPlayers, List<Player> deadPlayers)
+        static void Menu(List<Player> players, List<Player> deadPlayers)
         {
             Console.WriteLine("МЕНЮ");
             Console.WriteLine("1. Создать персонажа");
-            if (countPlayers > 0)
+            if (players.Count > 0)
+            {
                 Console.WriteLine("2. Управлять персонажем");
+            }
             Console.WriteLine("Enter. Выход");
             string input = Console.ReadLine();
             switch (input)
@@ -30,8 +31,7 @@ namespace character
                 case "1":
                     Console.Clear();
                     players.Add(new Player());
-                    players[countPlayers].Start();
-                    countPlayers++;
+                    players[players.Count - 1].Start();
                     Console.Clear();
                     Console.WriteLine("АКТИВНЫЕ ПЕРСОНАЖИ:");
                     foreach (Player player in players)
@@ -45,10 +45,10 @@ namespace character
                         //Nothing
                     } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
                     Console.Clear();
-                    Menu(players, countPlayers, deadPlayers);
+                    Menu(players, deadPlayers);
                     break;
                 case "2":
-                    if (countPlayers > 0)
+                    if (players.Count > 0)
                     {
                         Console.Clear();
                         Console.WriteLine("ВЫБОР ПЕРСОНАЖА");
@@ -60,17 +60,20 @@ namespace character
                         Console.WriteLine("Введите имя персонажа, которым хотите управлять: ");
                         input = Console.ReadLine();
                         int countError = 0;
-                        int count = -1;
+                        int count = 0;
                         foreach (Player player in players)
                         {
                             if (input == player.InfoName())
                             {
-                                count++;
+                                break;
                             }
                             else
+                            {
                                 countError++;
+                            }
+                            count++;
                         }
-                        if (countError == countPlayers)
+                        if (countError == players.Count)
                         {
                             Console.Write("\nОШИБКА!!! Персонажа с таким именем не существует\nНажмите Enter и попробуйте ещё раз . . . ");
                             do
@@ -81,10 +84,12 @@ namespace character
                         }
                         Console.Clear();
                         players[count].Game(players, deadPlayers);
-                        Menu(players, countPlayers, deadPlayers);
+                        Menu(players, deadPlayers);
                     }
                     else
+                    {
                         goto default;
+                    }
                     break;
                 case "":
                     break;
@@ -95,8 +100,7 @@ namespace character
                         //Nothing
                     } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
                     Console.Clear();
-                    Menu(players, countPlayers, deadPlayers
-                        );
+                    Menu(players, deadPlayers);
                     break;
             }
         }
