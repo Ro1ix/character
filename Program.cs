@@ -50,7 +50,8 @@ namespace character
                         Console.WriteLine("ВЫБОР ПЕРСОНАЖА");
                         foreach (Player player in players)
                         {
-                            Console.WriteLine(player);
+                            player.InfoOut();
+                            Console.WriteLine();
                         }
                         Console.WriteLine("Введите имя персонажа, которым хотите управлять: ");
                         input = Console.ReadLine();
