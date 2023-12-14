@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace character
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.Title = "Игровой персонаж";
             List<Player> players = new List<Player>();
@@ -54,8 +50,7 @@ namespace character
                         Console.WriteLine("ВЫБОР ПЕРСОНАЖА");
                         foreach (Player player in players)
                         {
-                            player.InfoOut();
-                            Console.WriteLine();
+                            Console.WriteLine(player);
                         }
                         Console.WriteLine("Введите имя персонажа, которым хотите управлять: ");
                         input = Console.ReadLine();

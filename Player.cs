@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace character
 {
@@ -17,10 +14,10 @@ namespace character
         public void Start()
         {
             InfoIn();
-        }
+        }   /*Публичный метод для вызова приватного метода*/
         private void InfoIn()
         {
-            string input = "";    /*Переменная для ввода*/
+            string input;    /*Переменная для ввода*/
             bool error = false;   /*Переменная для прекращения циклов с ошибкой*/
             do
             {
@@ -179,6 +176,7 @@ namespace character
             Console.WriteLine($"Жизни: {hp}/{hpMax}");
             Console.WriteLine($"Координаты: {x}; {y}");
         }
+  
         public string InfoName()
         {
             return name;
@@ -209,7 +207,7 @@ namespace character
             switch (input)
             {
                 case "1":
-                    moveX();
+                    MoveX();
                     Console.Write("\nНажмите Enter, чтобы продолжить . . . ");
                     do
                     {
@@ -219,7 +217,7 @@ namespace character
                     Game(players, deadPlayers);
                     break;
                 case "2":
-                    moveY();
+                    MoveY();
                     Console.Write("\nНажмите Enter, чтобы продолжить . . . ");
                     do
                     {
@@ -272,13 +270,12 @@ namespace character
                     break;
             }
         }
-        private void moveX()
+        private void MoveX()
         {
             string input;
-            int move = 0;
             Console.WriteLine("(Положительное число - вправо,  отрицательное - влево)\nВведите, какое расстояние хотите пройти: ");
             input = Console.ReadLine();
-            if (Int32.TryParse(input, out move) == true)
+            if (Int32.TryParse(input, out int move) == true)
             {
                 if (x + move <= 10 || x + move >= 0)
                 {
@@ -288,22 +285,21 @@ namespace character
                 else
                 {
                     Console.Write("\nОШИБКА!!! Нельзя выходить за пределы карты\nПопробуйте ещё раз . . . ");
-                    moveX();
+                    MoveX();
                 }
             }
             else
             {
                 Console.Write("\nОШИБКА!!! Попробуйте ещё раз . . . ");
-                moveX();
+                MoveX();
             }
         }
-        private void moveY()
+        private void MoveY()
         {
             string input;
-            int move = 0;
             Console.WriteLine("(Положительное число - вверх,  отрицательное - вниз)\nВведите, какое расстояние хотите пройти: ");
             input = Console.ReadLine();
-            if (Int32.TryParse(input, out move) == true)
+            if (Int32.TryParse(input, out int move) == true)
             {
                 if (y + move <= 10 || y + move >= 0)
                 {
@@ -313,13 +309,13 @@ namespace character
                 else
                 {
                     Console.Write("\nОШИБКА!!! Нельзя выходить за пределы карты\nПопробуйте ещё раз . . . ");
-                    moveX();
+                    MoveX();
                 }
             }
             else
             {
                 Console.Write("\nОШИБКА!!! Попробуйте ещё раз . . . ");
-                moveX();
+                MoveX();
             }
         }
         private void Heal()
@@ -432,7 +428,7 @@ namespace character
                         hpEnemy += player.hp;
                     }
                 }
-                InfoBattle(players, enemies, friends, hpEnemy);
+                InfoBattle(players);
                 hpEnemy = BattleChoise(players, enemies, friends, hpEnemy);
                 EnemyAttack(players, friends);
             } while (hp > 0 && hpEnemy > 0);
@@ -459,7 +455,7 @@ namespace character
                 Console.Clear();
             }
         }
-        private void InfoBattle(List<Player> players, int enemies, int friends, double hpEnemy)
+        private void InfoBattle(List<Player> players)
         {
             Console.WriteLine("ВАША КОМАНДА");
             Console.WriteLine($"Вы\nHP: {hp}/{hpMax}\nАТК: {atk}");
