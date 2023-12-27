@@ -189,11 +189,11 @@ namespace character
             LocationCheck(players, deadPlayers);
             if (hp > 0)
             {
-                MapChoice(players, deadPlayers);
+                MapChoise(players, deadPlayers);
             }
             players.RemoveAll(player => player.hp <= 0);
         }
-        private void MapChoice(List<Player> players, List<Player> deadPlayers)
+        private void MapChoise(List<Player> players, List<Player> deadPlayers)
         {
             Console.WriteLine("Выберите действие:");
             Console.WriteLine("1. Двигаться по оси X");
@@ -429,7 +429,7 @@ namespace character
                     }
                 }
                 InfoBattle(players);
-                hpEnemy = BattleChoice(players, enemies, friends, hpEnemy);
+                hpEnemy = BattleChoise(players, enemies, friends, hpEnemy);
                 EnemyAttack(players, friends);
             } while (hp > 0 && hpEnemy > 0);
             foreach (Player player in players)
@@ -482,7 +482,7 @@ namespace character
                 }
             }
         }
-        private double BattleChoice(List<Player> players, int enemies, int friends, double hpEnemy)
+        private double BattleChoise(List<Player> players, int enemies, int friends, double hpEnemy)
         {
             Console.WriteLine("Выберите действие:");
             Console.WriteLine("1. Ударить    2. Подлечиться");
@@ -499,7 +499,7 @@ namespace character
             else
             {
                 Console.WriteLine("ОШИБКА!!! Попробуйте ещё раз . . .\n");
-                BattleChoice(players, enemies, friends, hpEnemy);
+                BattleChoise(players, enemies, friends, hpEnemy);
             }
             return hpEnemy;
         }
