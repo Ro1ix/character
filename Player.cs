@@ -207,7 +207,7 @@ namespace character
             switch (input)
             {
                 case "1":
-                    MoveX();
+                    MoveX(players, deadPlayers);
                     Console.Write("\nНажмите Enter, чтобы продолжить . . . ");
                     do
                     {
@@ -217,7 +217,7 @@ namespace character
                     Game(players, deadPlayers);
                     break;
                 case "2":
-                    MoveY();
+                    MoveY(players, deadPlayers);
                     Console.Write("\nНажмите Enter, чтобы продолжить . . . ");
                     do
                     {
@@ -270,7 +270,7 @@ namespace character
                     break;
             }
         }
-        private void MoveX()
+        private void MoveX(List<Player> players, List<Player> deadPlayers)
         {
             string input;
             Console.WriteLine("(Положительное число - вправо,  отрицательное - влево)\nВведите, какое расстояние хотите пройти: ");
@@ -281,20 +281,21 @@ namespace character
                 {
                     x += move;
                     Console.WriteLine($"\nГотово! Ваши текущие координаты: {x}; {y}");
+                    LocationCheck(players, deadPlayers);
                 }
                 else
                 {
                     Console.Write("\nОШИБКА!!! Нельзя выходить за пределы карты\nПопробуйте ещё раз . . . ");
-                    MoveX();
+                    MoveX(players, deadPlayers);
                 }
             }
             else
             {
                 Console.Write("\nОШИБКА!!! Попробуйте ещё раз . . . ");
-                MoveX();
+                MoveX(players, deadPlayers);
             }
         }
-        private void MoveY()
+        private void MoveY(List<Player> players, List<Player> deadPlayers)
         {
             string input;
             Console.WriteLine("(Положительное число - вверх,  отрицательное - вниз)\nВведите, какое расстояние хотите пройти: ");
@@ -305,17 +306,18 @@ namespace character
                 {
                     y += move;
                     Console.WriteLine($"\nГотово! Ваши текущие координаты: {x}; {y}");
+                    LocationCheck(players, deadPlayers);
                 }
                 else
                 {
                     Console.Write("\nОШИБКА!!! Нельзя выходить за пределы карты\nПопробуйте ещё раз . . . ");
-                    MoveX();
+                    MoveY(players, deadPlayers);
                 }
             }
             else
             {
                 Console.Write("\nОШИБКА!!! Попробуйте ещё раз . . . ");
-                MoveX();
+                MoveY(players, deadPlayers);
             }
         }
         private void Heal()
