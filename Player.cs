@@ -183,13 +183,25 @@ namespace character
         }
         public void Game(List<Player> players, List<Player> deadPlayers)
         {
-            Console.WriteLine("ИНФОРМАЦИЯ О ПЕРСОНАЖЕ");
-            InfoOut();
-            Console.WriteLine();
-            LocationCheck(players, deadPlayers);
             if (hp > 0)
             {
-                MapChoise(players, deadPlayers);
+                Console.WriteLine("ИНФОРМАЦИЯ О ПЕРСОНАЖЕ");
+                InfoOut();
+                Console.WriteLine();
+                LocationCheck(players, deadPlayers);
+                if (hp > 0)
+                {
+                    MapChoise(players, deadPlayers);
+                }
+            }
+            else
+            {
+                Console.WriteLine("ПЕРСОНАЖ МЁРТВ\nНажмите Enter, чтобы продолжить . . . ");
+                do
+                {
+                    //Nothing
+                } while (Console.ReadKey(true).Key != ConsoleKey.Enter);
+                Console.Clear();
             }
             players.RemoveAll(player => player.hp <= 0);
         }
@@ -383,7 +395,7 @@ namespace character
             int friends = 1;
             foreach (Player player in players)
             {
-                if (name != player.name && x == player.x && y == player.y)
+                if (name != player.name && x == player.x && y == player.y && player.hp > 0)
                 {
                     Console.WriteLine("Вы встретили персонажа:");
                     player.InfoOut();
@@ -421,15 +433,15 @@ namespace character
                     player.atk = random.Next(3, 7);
                 }
             }
+            foreach (Player player in players)
+            {
+                if (x == player.x && y == player.y && player.lager != lager)
+                {
+                    hpEnemy += player.hp;
+                }
+            }
             do
             {
-                foreach (Player player in players)
-                {
-                    if (x == player.x && y == player.y && player.lager != lager)
-                    {
-                        hpEnemy += player.hp;
-                    }
-                }
                 InfoBattle(players);
                 hpEnemy = BattleChoise(players, enemies, friends, hpEnemy);
                 EnemyAttack(players, friends);
